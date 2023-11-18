@@ -24,7 +24,10 @@ export type ChainIds =
   | "11155111";
 export async function GET(req: NextRequest) {
   req.headers.set("Access-Control-Allow-Origin", "*");
-  req.headers.set("Access-Control-Allow-Methods", "GET");
+  req.headers.set(
+    "Access-Control-Allow-Methods",
+    "GET,OPTIONS,PATCH,DELETE,POST,PUT"
+  );
   req.headers.set("Access-Control-Allow-Headers", "Content-Type");
   let chainId: ChainIds = req.nextUrl.searchParams.get("chainId") as ChainIds;
   let address: string = req.nextUrl.searchParams.get("address") as string;
