@@ -23,12 +23,6 @@ export type ChainIds =
   | "43114"
   | "11155111";
 export async function GET(req: NextRequest) {
-  req.headers.set("Access-Control-Allow-Origin", "*");
-  req.headers.set(
-    "Access-Control-Allow-Methods",
-    "GET,OPTIONS,PATCH,DELETE,POST,PUT"
-  );
-  req.headers.set("Access-Control-Allow-Headers", "Content-Type");
   let chainId: ChainIds = req.nextUrl.searchParams.get("chainId") as ChainIds;
   let address: string = req.nextUrl.searchParams.get("address") as string;
   let apiUrl = "https://api.etherscan.io/api";
@@ -79,9 +73,23 @@ export async function GET(req: NextRequest) {
       (await contractCreatorAddressResponse.json()) as EtherscanContractCreationResponse;
     console.log("json", json);
     console.log("yes results 0", json?.result[0]);
-    return NextResponse.json(json);
+    const res = NextResponse.json(json);
+    res.headers.set("Access-Control-Allow-Origin", "*");
+    res.headers.set(
+      "Access-Control-Allow-Methods",
+      "GET,OPTIONS,PATCH,DELETE,POST,PUT"
+    );
+    res.headers.set("Access-Control-Allow-Headers", "Content-Type");
+    return res;
   } catch (error) {
-    return NextResponse.json({ nooption: true, error });
+    const res = NextResponse.json({ nooption: true, error });
+    res.headers.set("Access-Control-Allow-Origin", "*");
+    res.headers.set(
+      "Access-Control-Allow-Methods",
+      "GET,OPTIONS,PATCH,DELETE,POST,PUT"
+    );
+    res.headers.set("Access-Control-Allow-Headers", "Content-Type");
+    return res;
   }
 }
 function daysSinceTimestampInSeconds(timestampInSeconds: number): number {
