@@ -23,6 +23,9 @@ export type ChainIds =
   | "43114"
   | "11155111";
 export async function GET(req: NextRequest) {
+  req.headers.set("Access-Control-Allow-Origin", "*");
+  req.headers.set("Access-Control-Allow-Methods", "GET");
+  req.headers.set("Access-Control-Allow-Headers", "Content-Type");
   let chainId: ChainIds = req.nextUrl.searchParams.get("chainId") as ChainIds;
   let address: string = req.nextUrl.searchParams.get("address") as string;
   let apiUrl = "https://api.etherscan.io/api";
